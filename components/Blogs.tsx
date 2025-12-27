@@ -97,62 +97,73 @@ const Blogs: React.FC = () => {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   return (
-    <div className="min-h-screen bg-obsidian text-paper pt-40 px-8 pb-32">
+    <div className="min-h-screen bg-obsidian text-paper pt-32 md:pt-40 px-6 md:px-8 pb-20 md:pb-32">
       <div className="max-w-5xl mx-auto">
-        <header className="mb-12">
-          <h1 className="text-4xl font-black uppercase italic tracking-tighter mb-2">
+        <header className="mb-8 md:mb-12">
+          <h1 className="text-3xl md:text-4xl font-black uppercase italic tracking-tighter mb-2">
              <span className="text-violet">blogs_</span>
           </h1>
-          <p className="font-mono text-[10px] text-gray-500 uppercase tracking-[0.4em]">
+          <p className="font-mono text-[9px] md:text-[10px] text-gray-500 uppercase tracking-[0.2em] md:tracking-[0.4em]">
             Insights//Reflections//Experiments
           </p>
         </header>
 
-        {/* Tab Toggle */}
-        <div className="flex gap-8 border-b border-white/10 mb-12">
+        {/* Tab Toggle: Optimized for touch and smaller widths */}
+        <div className="flex gap-4 md:gap-8 border-b border-white/10 mb-8 md:mb-12 overflow-x-auto no-scrollbar">
           <button 
             onClick={() => setActiveTab('linkedin')}
-            className={`pb-4 font-mono text-[11px] uppercase tracking-widest transition-colors ${activeTab === 'linkedin' ? 'text-mint border-b border-mint' : 'text-gray-500'}`}
+            className={`pb-4 font-mono text-[10px] md:text-[11px] uppercase tracking-widest transition-colors whitespace-nowrap ${activeTab === 'linkedin' ? 'text-mint border-b border-mint' : 'text-gray-500'}`}
           >
             01. LinkedIn_Logs
           </button>
           <button 
             onClick={() => setActiveTab('others')}
-            className={`pb-4 font-mono text-[11px] uppercase tracking-widest transition-colors ${activeTab === 'others' ? 'text-gold border-b border-gold' : 'text-gray-400'}`}
+            className={`pb-4 font-mono text-[10px] md:text-[11px] uppercase tracking-widest transition-colors whitespace-nowrap ${activeTab === 'others' ? 'text-gold border-b border-gold' : 'text-gray-400'}`}
           >
             02. More_Stuff
           </button>
         </div>
 
         {activeTab === 'linkedin' ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-start">
             {LINKEDIN_POSTS.map((post) => {
               const isExpanded = expandedId === post.id;
               return (
                 <div 
                   key={post.id}
-                  className={`brutalist-border p-6 bg-[#0A0A0A] border-white/10 transition-all ${isExpanded ? 'md:col-span-2' : 'col-span-1'}`}
+                  className={`brutalist-border p-5 md:p-6 bg-[#0A0A0A] border-white/10 transition-all ${isExpanded ? 'md:col-span-2' : 'col-span-1'}`}
                 >
                   <div className="flex justify-between items-start mb-4">
-                    <span className="font-mono text-[9px] uppercase font-bold px-2 py-1 bg-white/5" style={{ color: post.color }}>
+                    <span className="font-mono text-[8px] md:text-[9px] uppercase font-bold px-2 py-1 bg-white/5" style={{ color: post.color }}>
                       // {post.tag}
                     </span>
-                    <a href={post.link} target="_blank" className="opacity-20 hover:opacity-100 text-white">↗</a>
+                    <a href={post.link} target="_blank" className="opacity-20 hover:opacity-100 text-white p-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </a>
                   </div>
 
-                  <h3 className="text-lg font-black uppercase mb-3 leading-tight tracking-tight">
+                  {/* Title: Adjusted for mobile readability */}
+                  <h3 className="text-base md:text-lg font-black uppercase mb-3 leading-tight tracking-tight">
                     {post.title}
                   </h3>
 
-                  <div className="text-xs font-mono text-gray-400 mb-8 leading-relaxed whitespace-pre-line">
+                  {/* Content: text-xs is sensible for mobile logs */}
+                  <div className="text-[11px] md:text-xs font-mono text-gray-400 mb-6 md:mb-8 leading-relaxed whitespace-pre-line">
                     {isExpanded ? post.fullContent : post.excerpt}
                   </div>
 
                   <div className="flex justify-between items-center pt-4 border-t border-white/5">
-                    <span className="font-mono text-[9px] text-gray-600 uppercase">{post.date}</span>
+                    <span className="font-mono text-[8px] md:text-[9px] text-gray-600 uppercase">{post.date}</span>
                     <button 
-                      onClick={() => setExpandedId(isExpanded ? null : post.id)}
-                      className="text-[10px] font-black uppercase tracking-widest text-paper hover:text-mint transition-colors"
+                      onClick={() => {
+                        setExpandedId(isExpanded ? null : post.id);
+                        // Optional: Scroll to card if expanding on mobile
+                        if(!isExpanded && window.innerWidth < 768) {
+                           const el = document.getElementById(`post-${post.id}`);
+                           el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                      }}
+                      className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-paper hover:text-mint transition-colors"
                     >
                       {isExpanded ? '[ Collapse ]' : '[ Read Full ]'}
                     </button>
@@ -162,11 +173,8 @@ const Blogs: React.FC = () => {
             })}
           </div>
         ) : (
-          <div className="brutalist-border border-dashed p-16 text-center opacity-30">
-            <div className="text-xl font-black uppercase mb-2">Coming Soon</div>
-            <p className="font-mono text-[10px] uppercase tracking-widest text-gray-500">
-              Synchronizing research documentation.
-            </p>
+          <div className="brutalist-border border-dashed p-10 md:p-16 text-center opacity-30">
+            <div className="text-lg md:text-xl font-black uppercase mb-2">Coming Soon</div>
           </div>
         )}
       </div>

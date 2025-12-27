@@ -78,29 +78,36 @@ const WORK_EXPERIENCE = [
   }
 ];
 
-const ExperienceCard = ({ exp }: { exp: typeof WORK_EXPERIENCE[0] }) => {
+const ExperienceCard = ({ exp, key }: { exp: typeof WORK_EXPERIENCE[0]; key?: string }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <motion.div
       layout
       onClick={() => setIsExpanded(!isExpanded)}
-      className={`brutalist-border p-8 bg-obsidian cursor-pointer relative overflow-hidden ${exp.gridClass}`}
-      style={{ boxShadow: isExpanded ? `0px 0px 0px 0px transparent` : `6px 6px 0px 0px ${exp.color}` }}
+      // Mobile: col-span-1, md: gridClass (col-span-8/4)
+      className={`brutalist-border p-6 md:p-8 bg-obsidian cursor-pointer relative overflow-hidden col-span-1 ${exp.gridClass}`}
+      // Mobile: 4px shadow, Desktop: 6px shadow
+      style={{ 
+        boxShadow: isExpanded ? `0px 0px 0px 0px transparent` : `4px 4px 0px 0px ${exp.color}`,
+        // Use a media query approach or inline check if possible, 
+        // but 4px is a safe "sensible" middle ground for both.
+      }}
       whileHover={{ y: isExpanded ? 0 : -5 }}
     >
       <motion.div layout className="flex justify-between mb-4">
-        <span className="font-mono text-[10px] text-gray-500 uppercase tracking-widest">{exp.period}</span>
+        <span className="font-mono text-[9px] md:text-[10px] text-gray-500 uppercase tracking-widest">{exp.period}</span>
         <div className="w-2 h-2 rounded-full" style={{ backgroundColor: exp.color }}></div>
       </motion.div>
 
-      <motion.h4 layout className="text-2xl font-black uppercase leading-none mb-2">{exp.company}</motion.h4>
+      {/* Title: text-xl on mobile, text-2xl on desktop */}
+      <motion.h4 layout className="text-xl md:text-2xl font-black uppercase leading-none mb-2">{exp.company}</motion.h4>
       <motion.p layout className="text-xs font-bold uppercase mb-4 opacity-70" style={{ color: exp.color }}>
         {exp.role}
       </motion.p>
 
       {!isExpanded ? (
-        <motion.p layout className="text-sm text-gray-400 mb-6 leading-relaxed max-w-md">
+        <motion.p layout className="text-xs md:text-sm text-gray-400 mb-6 leading-relaxed max-w-md">
           {exp.summary}
         </motion.p>
       ) : (
@@ -108,11 +115,11 @@ const ExperienceCard = ({ exp }: { exp: typeof WORK_EXPERIENCE[0] }) => {
           {exp.details.map((item, idx) => (
             <div key={idx} className="border-l border-white/10 pl-4">
               {typeof item === 'string' ? (
-                <p className="text-[11px] font-mono leading-relaxed text-paper/80">{item}</p>
+                <p className="text-[10px] md:text-[11px] font-mono leading-relaxed text-paper/80">{item}</p>
               ) : (
                 <>
-                  <p className="text-[12px] font-bold text-violet uppercase mb-1 tracking-tighter">{item.title}</p>
-                  <p className="text-[12px] font-mono leading-relaxed text-paper/70">{item.log}</p>
+                  <p className="text-[11px] md:text-[12px] font-bold text-violet uppercase mb-1 tracking-tighter">{item.title}</p>
+                  <p className="text-[11px] md:text-[12px] font-mono leading-relaxed text-paper/70">{item.log}</p>
                 </>
               )}
             </div>
@@ -120,16 +127,16 @@ const ExperienceCard = ({ exp }: { exp: typeof WORK_EXPERIENCE[0] }) => {
         </motion.div>
       )}
 
-      <motion.div layout className="flex flex-wrap gap-6 mt-auto">
+      <motion.div layout className="flex flex-wrap gap-4 md:gap-6 mt-auto">
         {exp.metrics.map((m, idx) => (
           <div key={idx} className="flex flex-col">
-            <span className="text-[12px] font-mono uppercase text-gray-500">{m.label}</span>
-            <span className="text-xl font-black" style={{ color: exp.color }}>{m.value}</span>
+            <span className="text-[10px] md:text-[12px] font-mono uppercase text-gray-500">{m.label}</span>
+            <span className="text-lg md:text-xl font-black" style={{ color: exp.color }}>{m.value}</span>
           </div>
         ))}
         <div className="ml-auto self-end">
-           <span className="text-[12px] font-mono opacity-30 uppercase tracking-tighter">
-             {isExpanded ? '[ Close Archive ]' : '[ Open Full Archive ]'}
+           <span className="text-[10px] md:text-[12px] font-mono opacity-30 uppercase tracking-tighter">
+             {isExpanded ? '[ Close ]' : '[ Open Archive ]'}
            </span>
         </div>
       </motion.div>
@@ -139,25 +146,26 @@ const ExperienceCard = ({ exp }: { exp: typeof WORK_EXPERIENCE[0] }) => {
 
 const BentoGrid: React.FC = () => {
   return (
-    <section className="py-32 px-6 max-w-7xl mx-auto" id="experience">
-      <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
-        <div>
-       <motion.h2 
-                 initial={{ opacity: 0, x: -20 }}
-                 whileInView={{ opacity: 1, x: 0 }}
-                 className="text-4xl font-black uppercase italic leading-none tracking-tighter"
-               >
-          <h2 className="text-5xl font-black uppercase tracking-tighter leading-none mb-4 italic">
-            Work <br />
-            <span className="text-violet">Experience_</span>
-          </h2>
-          </motion.h2>
+    <section className="py-20 md:py-32 px-6 max-w-7xl mx-auto" id="experience">
+      <div className="flex flex-col md:flex-row justify-between items-end gap-6 md:gap-8 mb-12 md:mb-16">
+        <div className="w-full md:w-auto">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+          >
+            {/* Header: text-4xl on mobile, text-5xl on desktop */}
+            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none mb-4 italic">
+              Work <br />
+              <span className="text-violet">Experience_</span>
+            </h2>
+          </motion.div>
 
-          <p className="text-gray-400 font-mono text-sm uppercase tracking-widest">Archive Group 02: </p>
+          <p className="text-gray-400 font-mono text-[10px] md:text-sm uppercase tracking-widest">Archive Group 02: </p>
         </div>
         <div className="hidden md:block h-[2px] w-1/3 bg-paper/10 mb-2"></div>
       </div>
 
+      {/* Grid: Stacks on mobile, 12-cols on desktop */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
         {WORK_EXPERIENCE.map((exp) => (
           <ExperienceCard key={exp.id} exp={exp} />
