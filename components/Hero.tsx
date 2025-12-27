@@ -53,7 +53,7 @@ const Hero: React.FC = () => {
               </p>
 
               <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-                <a href="docs/shrayash_barnwal.pdf" target="_blank" className="w-full md:w-auto">
+                <a href="https://drive.google.com/file/d/1PQeqGYhOoEKonoYJxnX5EwPeOp_zVgA2/view?usp=sharing" target="_blank" className="w-full md:w-auto">
                   <button className="w-full md:w-auto group relative px-8 md:px-10 py-4 md:py-5 bg-paper text-obsidian font-black uppercase text-lg md:text-xl brutalist-shadow-gold overflow-hidden transition-all active:scale-95 active:shadow-none active:translate-x-1 active:translate-y-1">
                     <div className="absolute inset-0 w-full h-1 bg-mint/40 opacity-0 group-hover:opacity-100 group-hover:animate-scan z-0"></div>
                     <span className="relative z-10 flex items-center justify-center gap-3 group-hover:text-obsidian transition-colors">

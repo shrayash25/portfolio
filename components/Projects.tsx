@@ -26,7 +26,7 @@ const PROJECTS = [
     description: "Research in Natural Language Processing involving Real vs Fake news detection utilizing a Hybrid Architecture to optimize for accuracy and reasoning.",
     tags: ["PyTorch", "Transformers", "Research"],
     color: "paper",
-    link: "/docs/nlp-research.pdf", // Placeholder
+    link: "https://drive.google.com/file/d/1pz3X1zvctNFgG6iW7zVkczRneJAmkIiK/view?usp=sharing", // Placeholder
     metrics: "Hybrid Architecture"
   },
   {
@@ -35,7 +35,7 @@ const PROJECTS = [
     description: "A dual-path pipeline using Real-ESRGAN for super-resolution and FaceNet for facial recognition in obstructed or low-resolution frames.",
     tags: ["GANs", "Computer Vision", "ML", "transormers"],
     color: "gold",
-    link: "/docs/facial-rec-report.pdf", // Placeholder
+    link: "https://drive.google.com/file/d/1dpEpWo7GP2Szv9Jqda2gLZJ5UWkIqC2Q/view?usp=sharing", // Placeholder
     metrics: "Recognition Robustness"
   },
   {
