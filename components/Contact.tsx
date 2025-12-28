@@ -85,7 +85,7 @@ const Contact: React.FC = () => {
               <div className="flex justify-between items-center">
                 <div>
                   <span className="font-mono text-[9px] md:text-[10px] uppercase text-gray-500 mb-1 block">
-                    {social.label} // Nexus
+                    {social.label} 
                   </span>
                   {/* Handle: text-xl on mobile, text-2xl on desktop */}
                   <div className="text-xl md:text-2xl font-black uppercase text-paper group-hover:text-mint transition-colors">
